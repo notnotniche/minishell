@@ -6,7 +6,7 @@
 /*   By: nklingsh <nklingsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:05:06 by nklingsh          #+#    #+#             */
-/*   Updated: 2023/04/13 16:47:49 by nklingsh         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:54:27 by nklingsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,36 @@ int *index_in_tab(char *str)
 	int i;
 	int *tab;
 	int y;
+	int res;
 
 	i = 0;
 	y = 0;
+	res = 0;
 	tab = malloc(sizeof(int) * (number_of_letter(str) * 2));
 	if(!tab)
 		return (NULL);
 	while(str[i])
 	{
-		if(str[i] != ' ')
+		if (res == 0 && str[0] != ' ')
 		{
-			if ((str[i + 1] == ' ') || (str[i + 1] == '\0'))
-			{	
+			res = 12000;
+			tab[y] = i;
+			y++;
+		}
+		if (str[i] != ' ')
+		{
+			if (str[i + 1] == ' ' || str[i + 1] == '\0')
+			{
 				tab[y] = i;
-				printf("fin de mot : %d \n",i);
 				y++;
 			}
 			i++;
 		}
-		if (str[i] == ' ' || str[i] == '\0')
+		if (str[i] == ' ')
 		{
-			if ((str[i + 1] != ' '))
+			if (str[i + 1] != ' ')
 			{
-				tab[y] = i;
-				printf("debut de mot : %d \n",i);
+				tab[y] = i + 1;
 				y++;
 			}
 			i++;
@@ -107,15 +113,45 @@ int *index_in_tab(char *str)
 	return (tab);	
 }	
 
+char *copy_from_to(char *str, int x, int y)
+{
+	char *copy;
+	int i;
+
+	i = 0;
+	copy = malloc(sizeof(char) * (y - x + 2));
+	if (!copy)
+		return (NULL);
+	while(x <= y)
+	{
+		copy[i] = str[x];
+		x++;
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
+}
+
+
 char **ft_split(char *str)
 {
 	int i;
+	int y;
 	char **split_word;
+	int *tab;
 
 	i = 0;
+	y = 0;
+	tab = index_in_tab(str);
 	split_word = malloc(sizeof(char *) * number_of_word(str));
 	if (!split_word)
 		return (NULL);
+	while (y < number_of_word(str))
+	{
+		split_word[y] = copy_from_to(str, tab[i], tab[i + 1]);
+		i = i + 2;
+		y++;
+	}
 	return (split_word);
 }
 

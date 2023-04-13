@@ -6,7 +6,7 @@
 /*   By: nklingsh <nklingsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:16:40 by nklingsh          #+#    #+#             */
-/*   Updated: 2023/04/13 16:42:04 by nklingsh         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:54:13 by nklingsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int main(int argc, char **argv)
 {
 	(void)argc;
-	printf("phrase a parser '%s'\n",argv[1]);
-	printf("number of word : %d\n",number_of_word(argv[1]));
+	printf("nombre de mot :%d\n",number_of_word(argv[1]));
+	printf("nombre de lettre :%d\n\n",number_of_letter(argv[1]));
+	char **splittos;
 	int *tab;
 	tab = index_in_tab(argv[1]);
-	for (int i = 0; i < 10; i++)
-		printf("%d\n", tab[i]);
+	splittos = ft_split(argv[1]);
+	for (int i = 0; i < number_of_word(argv[1]); i++)
+		printf("%s ", splittos[i]);
 }
